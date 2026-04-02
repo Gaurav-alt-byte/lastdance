@@ -9,6 +9,7 @@ import Home from "./pages/Home.jsx";
 import VideoPlayer from "./pages/VideoPlayer.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import VerifyEmail from "./pages/VerifyEmail.jsx";
 import Profile from "./pages/Profile.jsx";
 import History from "./pages/History.jsx";
 import LikedVideos from "./pages/LikedVideos.jsx";

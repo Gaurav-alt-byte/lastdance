@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import React, { createContext, useContext, useEffect, useState } from "react";
 import apiClient from "../api/axios.js";
 import { getApiMessage, getErrorMessage, isApiSuccess } from "../utils/helpers.js";
 
@@ -41,10 +40,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (formData) => {
-    const response = await apiClient.post("/users/register", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return response;
+    try {
+      const response = await apiClient.post("/users/register", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      return response;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const logout = async () => {

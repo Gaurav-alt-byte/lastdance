@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Camera, Loader2, CheckCircle, Eye, EyeOff } from "lucide-react";
@@ -24,8 +23,20 @@ const Register = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
     setError("");
+
+    // Validation
+    if (!files.avatar) {
+      setError("Avatar is required. Please upload an image.");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return;
+    }
+
+    setLoading(true);
 
     const data = new FormData();
     data.append("username", formData.username);
@@ -42,12 +53,12 @@ const Register = () => {
       if (isApiSuccess(response)) {
         navigate("/login", {
           state: {
-            message: "Account created. Check your inbox to verify your email before signing in.",
+            message: "✓ Account created successfully! Check your inbox to verify your email before signing in.",
           },
         });
         return;
       }
-      setError(getApiMessage(response, "Registration failed"));
+      setError(getApiMessage(response, "Registration failed. Please try again."));
     } catch (err) {
       setError(getErrorMessage(err));
     } finally {
@@ -170,8 +181,8 @@ const Register = () => {
 
           <button
             type="submit"
-            disabled={loading}
-            className="flex w-full items-center justify-center rounded-2xl bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-70"
+            disabled={loading || !files.avatar}
+            className="flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-blue-500 px-4 py-3.5 font-semibold text-white shadow-lg transition duration-200 hover:from-blue-500 hover:to-blue-400 hover:shadow-blue-500/30 disabled:cursor-not-allowed disabled:from-gray-600 disabled:to-gray-500 disabled:shadow-none"
           >
             {loading ? <Loader2 className="mr-2 animate-spin" size={18} /> : null}
             {loading ? "Creating account..." : "Sign up"}

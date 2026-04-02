@@ -21,12 +21,18 @@ export const isApiSuccess = (response) => {
     return false;
   }
 
+  // Backend has typo: "sucess" instead of "success" - check both
   if (typeof response.success === "boolean") {
     return response.success;
   }
 
   if (typeof response.sucess === "boolean") {
     return response.sucess;
+  }
+
+  // If no explicit success field, treat as success if statusCode < 400
+  if (typeof response.statusCode === "number") {
+    return response.statusCode < 400;
   }
 
   return false;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { X } from "lucide-react";
+import { X, CheckCircle, Play, Image as ImageIcon, Loader2 } from "lucide-react";
 import apiClient from "../api/axios.js";
 import { getApiMessage, getErrorMessage, isApiSuccess } from "../utils/helpers.js";
 
@@ -20,8 +20,30 @@ const UploadModal = ({ isOpen, onClose, onUploaded }) => {
 
   const handleUpload = async (event) => {
     event.preventDefault();
-    setLoading(true);
     setError("");
+
+    // Validation
+    if (!title.trim()) {
+      setError("Video title is required.");
+      return;
+    }
+
+    if (!description.trim()) {
+      setError("Video description is required.");
+      return;
+    }
+
+    if (!videoFile) {
+      setError("Video file is required.");
+      return;
+    }
+
+    if (!thumbnail) {
+      setError("Thumbnail image is required.");
+      return;
+    }
+
+    setLoading(true);
 
     const formData = new FormData();
     formData.append("tittle", title);
@@ -39,7 +61,7 @@ const UploadModal = ({ isOpen, onClose, onUploaded }) => {
         onUploaded?.();
         onClose();
       } else {
-        setError(getApiMessage(response, "Upload failed"));
+        setError(getApiMessage(response, "Upload failed. Please try again."));
       }
     } catch (uploadError) {
       setError(getErrorMessage(uploadError));
@@ -74,7 +96,7 @@ const UploadModal = ({ isOpen, onClose, onUploaded }) => {
               {error}
             </div>
           )}
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="space-y-4">
             <input
               type="text"
               placeholder="Video title"
@@ -83,13 +105,29 @@ const UploadModal = ({ isOpen, onClose, onUploaded }) => {
               className="w-full rounded-2xl border border-white/10 bg-black px-4 py-3 text-white outline-none transition placeholder:text-zinc-500 focus:border-blue-500"
               required
             />
-            <input
-              type="file"
-              accept="video/*"
-              onChange={(event) => setVideoFile(event.target.files?.[0] || null)}
-              className="w-full rounded-2xl border border-white/10 bg-black px-4 py-3 text-sm text-zinc-300 file:mr-4 file:rounded-full file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-white"
-              required
-            />
+
+            <label
+              className={`flex cursor-pointer flex-col gap-2 rounded-2xl border border-dashed px-4 py-4 text-sm transition ${
+                videoFile
+                  ? "border-green-500/50 bg-green-500/10 text-green-400 hover:bg-green-500/20"
+                  : "border-white/15 bg-white/5 text-zinc-300 hover:bg-white/10"
+              }`}
+            >
+              <span className="flex items-center gap-2 font-medium text-white">
+                {videoFile ? <CheckCircle size={18} className="text-green-500" /> : <Play size={18} />}
+                Video file
+              </span>
+              <span className="truncate text-xs opacity-80">
+                {videoFile ? videoFile.name : "Required"}
+              </span>
+              <input
+                type="file"
+                accept="video/*"
+                onChange={(event) => setVideoFile(event.target.files?.[0] || null)}
+                className="hidden"
+                required
+              />
+            </label>
           </div>
 
           <textarea
@@ -100,33 +138,47 @@ const UploadModal = ({ isOpen, onClose, onUploaded }) => {
             required
           />
 
-          <div className="grid gap-4 md:grid-cols-2">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={(event) => setThumbnail(event.target.files?.[0] || null)}
-              className="w-full rounded-2xl border border-white/10 bg-black px-4 py-3 text-sm text-zinc-300 file:mr-4 file:rounded-full file:border-0 file:bg-white/10 file:px-4 file:py-2 file:text-white"
-              required
-            />
-            <div className="rounded-2xl border border-dashed border-white/10 bg-white/5 px-4 py-3 text-sm text-zinc-400">
-              Title, thumbnail, and video file are required by the backend.
-            </div>
+          <div className="space-y-4">
+            <label
+              className={`flex cursor-pointer flex-col gap-2 rounded-2xl border border-dashed px-4 py-4 text-sm transition ${
+                thumbnail
+                  ? "border-green-500/50 bg-green-500/10 text-green-400 hover:bg-green-500/20"
+                  : "border-white/15 bg-white/5 text-zinc-300 hover:bg-white/10"
+              }`}
+            >
+              <span className="flex items-center gap-2 font-medium text-white">
+                {thumbnail ? <CheckCircle size={18} className="text-green-500" /> : <ImageIcon size={18} />}
+                Thumbnail
+              </span>
+              <span className="truncate text-xs opacity-80">
+                {thumbnail ? thumbnail.name : "Required"}
+              </span>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(event) => setThumbnail(event.target.files?.[0] || null)}
+                className="hidden"
+                required
+              />
+            </label>
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-2">
+          <div className="flex items-center justify-end gap-3 pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full border border-white/10 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-white/5"
+              disabled={loading}
+              className="rounded-2xl border border-white/10 px-6 py-2.5 text-sm font-medium text-white transition duration-200 hover:border-white/30 hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={loading}
-              className="rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={loading || !videoFile || !thumbnail || !title.trim() || !description.trim()}
+              className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-red-600 to-red-500 px-6 py-2.5 text-sm font-semibold text-white shadow-lg transition duration-200 hover:from-red-500 hover:to-red-400 hover:shadow-red-500/30 disabled:cursor-not-allowed disabled:from-gray-600 disabled:to-gray-500 disabled:shadow-none"
             >
-              {loading ? "Uploading..." : "Publish"}
+              {loading && <Loader2 size={16} className="animate-spin" />}
+              {loading ? "Publishing..." : "Publish"}
             </button>
           </div>
         </form>
