@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --app-bg: #0f0f0f;
+  --surface-bg: #121212;
+  --panel-bg: #181818;
+  --menu-bg: #1f1f1f;
+  --nav-bg: rgba(15, 15, 15, 0.95);
+  --overlay-bg: rgba(0, 0, 0, 0.8);
+  --soft-bg: rgba(255, 255, 255, 0.05);
+  --soft-hover: rgba(255, 255, 255, 0.1);
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-soft: rgba(255, 255, 255, 0.05);
+  --text-primary: #ffffff;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --input-bg: #000000;
+  --chip-bg: #27272a;
+  --chip-hover: #3f3f46;
+  --chip-active-bg: #ffffff;
+  --chip-active-text: #000000;
+  --skeleton-bg: #27272a;
+  --table-row-hover: rgba(255, 255, 255, 0.05);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --app-bg: #f8fafc;
+  --surface-bg: #ffffff;
+  --panel-bg: #ffffff;
+  --menu-bg: #ffffff;
+  --nav-bg: rgba(248, 250, 252, 0.95);
+  --overlay-bg: rgba(15, 23, 42, 0.68);
+  --soft-bg: rgba(15, 23, 42, 0.04);
+  --soft-hover: rgba(15, 23, 42, 0.08);
+  --border-subtle: rgba(15, 23, 42, 0.12);
+  --border-soft: rgba(15, 23, 42, 0.08);
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --input-bg: #f8fafc;
+  --chip-bg: #e2e8f0;
+  --chip-hover: #cbd5e1;
+  --chip-active-bg: #0f172a;
+  --chip-active-text: #ffffff;
+  --skeleton-bg: #e2e8f0;
+  --table-row-hover: rgba(15, 23, 42, 0.04);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+  transition: background-color 200ms ease, color 200ms ease;
+}
+
+.app-shell {
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+}
+
+.app-surface {
+  background-color: var(--surface-bg);
+}
+
+.app-panel {
+  background-color: var(--panel-bg);
+}
+
+.app-menu {
+  background-color: var(--menu-bg);
+}
+
+.app-nav {
+  background-color: var(--nav-bg);
+}
+
+.app-overlay {
+  background-color: var(--overlay-bg);
+}
+
+.app-border {
+  border-color: var(--border-subtle);
+}
+
+.app-border-soft {
+  border-color: var(--border-soft);
+}
+
+.app-text-primary {
+  color: var(--text-primary);
+}
+
+.app-text-secondary {
+  color: var(--text-secondary);
+}
+
+.app-text-tertiary {
+  color: var(--text-tertiary);
+}
+
+.app-input {
+  background-color: var(--input-bg);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.app-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.app-soft-surface {
+  background-color: var(--soft-bg);
+}
+
+.app-soft-hover:hover {
+  background-color: var(--soft-hover);
+}
+
+.app-chip {
+  background-color: var(--chip-bg);
+  color: var(--text-primary);
+}
+
+.app-chip:hover {
+  background-color: var(--chip-hover);
+}
+
+.app-chip-active {
+  background-color: var(--chip-active-bg);
+  color: var(--chip-active-text);
+}
+
+.app-table-row:hover {
+  background-color: var(--table-row-hover);
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.loading-dot-delay-200 {
+  animation-delay: 0.2s;
+}
+
+.loading-dot-delay-400 {
+  animation-delay: 0.4s;
+}
+
+:root[data-theme="light"] .bg-\[\#0f0f0f\],
+:root[data-theme="light"] .bg-\[\#0f0f0f\]\/95 {
+  background-color: var(--app-bg) !important;
+}
+
+:root[data-theme="light"] .bg-\[\#121212\] {
+  background-color: var(--surface-bg) !important;
+}
+
+:root[data-theme="light"] .bg-\[\#181818\],
+:root[data-theme="light"] .bg-\[\#1a1a1a\],
+:root[data-theme="light"] .bg-\[\#1f1f1f\] {
+  background-color: var(--panel-bg) !important;
+}
+
+:root[data-theme="light"] .bg-black {
+  background-color: var(--input-bg) !important;
+}
+
+:root[data-theme="light"] .bg-zinc-900,
+:root[data-theme="light"] .bg-zinc-900\/60,
+:root[data-theme="light"] .hover\:bg-zinc-900\/90:hover {
+  background-color: var(--panel-bg) !important;
+}
+
+:root[data-theme="light"] .bg-zinc-800,
+:root[data-theme="light"] .animate-pulse.bg-zinc-800,
+:root[data-theme="light"] .bg-zinc-800\/80 {
+  background-color: var(--chip-bg) !important;
+}
+
+:root[data-theme="light"] .hover\:bg-zinc-700:hover {
+  background-color: var(--chip-hover) !important;
+}
+
+:root[data-theme="light"] .bg-white\/5,
+:root[data-theme="light"] .bg-white\/10 {
+  background-color: var(--soft-bg) !important;
+}
+
+:root[data-theme="light"] .hover\:bg-white\/5:hover,
+:root[data-theme="light"] .hover\:bg-white\/10:hover {
+  background-color: var(--soft-hover) !important;
+}
+
+:root[data-theme="light"] .border-white\/10,
+:root[data-theme="light"] .border-white\/15,
+:root[data-theme="light"] .divide-white\/10 > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border-subtle) !important;
+}
+
+:root[data-theme="light"] .border-white\/5 {
+  border-color: var(--border-soft) !important;
+}
+
+:root[data-theme="light"] .text-white,
+:root[data-theme="light"] .text-zinc-100,
+:root[data-theme="light"] .text-white\/30,
+:root[data-theme="light"] .text-white\/20 {
+  color: var(--text-primary) !important;
+}
+
+:root[data-theme="light"] .text-zinc-300,
+:root[data-theme="light"] .text-zinc-400 {
+  color: var(--text-secondary) !important;
+}
+
+:root[data-theme="light"] .text-zinc-500,
+:root[data-theme="light"] .text-zinc-600 {
+  color: var(--text-tertiary) !important;
+}
+
+:root[data-theme="light"] .bg-white.text-black {
+  background-color: var(--chip-active-bg) !important;
+  color: var(--chip-active-text) !important;
+}
+
+:root[data-theme="light"] .file\:bg-white\/10::file-selector-button {
+  background-color: var(--soft-bg) !important;
+  color: var(--text-primary) !important;
+}
