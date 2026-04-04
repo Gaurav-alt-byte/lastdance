@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
+import AnimatedLogo from "../components/AnimatedLogo.jsx";
 
 const Login = () => {
   const { login } = useAuth();
@@ -19,7 +20,6 @@ const Login = () => {
     event.preventDefault();
     setError("");
 
-    // Validation
     if (!formData.emailOrUsername.trim()) {
       setError("Username or email is required.");
       return;
@@ -54,14 +54,18 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md rounded-3xl border border-white/10 bg-[#121212] p-8 shadow-soft">
-        <h1 className="text-center text-3xl font-bold text-white">Welcome back</h1>
+    <div className="relative flex min-h-screen items-center justify-center px-4 py-10">
+      <div className="auth-card-panel w-full max-w-md rounded-3xl border border-white/10 p-8 shadow-soft">
+        <Link to="/" className="mx-auto flex w-fit items-center justify-center">
+          <AnimatedLogo variant="full"/>
+        </Link>
+
+        <h1 className="mt-6 text-center text-3xl font-bold text-white">Welcome back</h1>
         <p className="mt-2 text-center text-sm text-zinc-400">Sign in to continue to CrackedTube.</p>
 
         {location.state?.message && !error && (
           <div className="mt-6 rounded-2xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-300">
-            ✓ {location.state.message}
+            {location.state.message}
           </div>
         )}
 
