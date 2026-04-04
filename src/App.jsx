@@ -19,13 +19,12 @@ import PlaylistDetail from "./pages/PlaylistDetail.jsx";
 import Trending from "./pages/Trending.jsx";
 import CreatorStudio from "./pages/CreatorStudio.jsx";
 import SubscribedFeed from "./pages/SubscribedFeed.jsx";
+import UpdateChannel from "./pages/UpdateChannel.jsx";
 
 const getInitialTheme = () => {
   if (typeof window === "undefined") return "dark";
   const savedTheme = window.localStorage.getItem("cracked-tube-theme");
-  if (savedTheme === "light" || savedTheme === "dark") {
-    return savedTheme;
-  }
+  if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
   return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
 };
 
@@ -37,8 +36,9 @@ const App = () => {
   const [theme, setTheme] = useState(getInitialTheme);
 
   const toggleSidebar = () => setSidebarOpen((open) => !open);
-  const refreshFeed = () => setFeedRefreshKey((value) => value + 1);
-  const toggleTheme = () => setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
+  const refreshFeed = () => setFeedRefreshKey((v) => v + 1);
+  const toggleTheme = () =>
+    setTheme((t) => (t === "dark" ? "light" : "dark"));
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -46,9 +46,7 @@ const App = () => {
   }, [theme]);
 
   const routes = useMemo(
-    () => ({
-      home: <Home refreshKey={feedRefreshKey} />,
-    }),
+    () => ({ home: <Home refreshKey={feedRefreshKey} /> }),
     [feedRefreshKey],
   );
 
@@ -79,24 +77,71 @@ const App = () => {
             <Sidebar isCollapsed={!sidebarOpen} />
           </aside>
 
-          <main className={`min-h-[calc(100vh-4rem)] flex-1 transition-all duration-300 ${sidebarOpen ? "sm:ml-64" : "sm:ml-20"}`}>
+          <main
+            className={`min-h-[calc(100vh-4rem)] flex-1 transition-all duration-300 ${
+              sidebarOpen ? "sm:ml-64" : "sm:ml-20"
+            }`}
+          >
             <Routes>
               <Route path="/" element={routes.home} />
               <Route path="/search" element={routes.home} />
               <Route path="/trending" element={<Trending />} />
-              <Route path="/subscribed" element={user ? <SubscribedFeed /> : <Navigate to="/login" replace />} />
+              <Route
+                path="/subscribed"
+                element={user ? <SubscribedFeed /> : <Navigate to="/login" replace />}
+              />
               <Route path="/video/:videoId" element={<VideoPlayer />} />
               <Route path="/login" element={!user ? <Login /> : <Navigate to="/" replace />} />
-              <Route path="/register" element={!user ? <Register /> : <Navigate to="/" replace />} />
+              <Route
+                path="/register"
+                element={!user ? <Register /> : <Navigate to="/" replace />}
+              />
               <Route path="/verify/:token" element={<VerifyEmail />} />
-              <Route path="/tweets" element={user ? <TweetsFeed /> : <Navigate to="/login" replace />} />
-              <Route path="/history" element={user ? <History /> : <Navigate to="/login" replace />} />
-              <Route path="/liked-videos" element={user ? <LikedVideos /> : <Navigate to="/login" replace />} />
-              <Route path="/collections" element={user ? <Collections /> : <Navigate to="/login" replace />} />
-              <Route path="/playlist/:playlistId" element={user ? <PlaylistDetail /> : <Navigate to="/login" replace />} />
-              <Route path="/studio" element={user ? <CreatorStudio /> : <Navigate to="/login" replace />} />
-              <Route path="/profile" element={user ? <Navigate to={`/channel/${user.username}`} replace /> : <Navigate to="/login" replace />} />
-              <Route path="/channel/:username" element={user ? <Profile /> : <Navigate to="/login" replace />} />
+              <Route
+                path="/tweets"
+                element={user ? <TweetsFeed /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/history"
+                element={user ? <History /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/liked-videos"
+                element={user ? <LikedVideos /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/collections"
+                element={user ? <Collections /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/playlist/:playlistId"
+                element={user ? <PlaylistDetail /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/studio"
+                element={user ? <CreatorStudio /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/profile"
+                element={
+                  user ? (
+                    <Navigate to={`/channel/${user.username}`} replace />
+                  ) : (
+                    <Navigate to="/login" replace />
+                  )
+                }
+              />
+              {/* /channel/edit must be declared BEFORE /channel/:username
+                  so React Router matches the literal "edit" before treating
+                  it as a username param */}
+              <Route
+                path="/channel/edit"
+                element={user ? <UpdateChannel /> : <Navigate to="/login" replace />}
+              />
+              <Route
+                path="/channel/:username"
+                element={user ? <Profile /> : <Navigate to="/login" replace />}
+              />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </main>
