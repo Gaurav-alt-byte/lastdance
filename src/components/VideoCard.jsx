@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
@@ -29,7 +30,7 @@ const VideoCard = ({ video }) => {
         {/* <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-0.5 text-[10px] font-semibold text-white">
           {formatDuration(video.duration)}
         </span> */}
-        <span className="absolute bottom-2 right-2 rounded bg-zinc-800/90 px-2 py-0.5 text-[10px] font-bold text-zinc-100 dark:bg-black/80 dark:text-white">
+        <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-0.5 text-[10px] font-bold text-white">
           {formatDuration(video.duration)}
         </span>
       </div>
