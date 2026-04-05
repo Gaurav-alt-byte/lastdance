@@ -64,7 +64,7 @@ const Login = () => {
         <p className="mt-2 text-center text-sm text-zinc-400">Sign in to continue to CrackedTube.</p>
 
         {location.state?.message && !error && (
-          <div className="mt-6 rounded-2xl border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-300">
+          <div className="mt-6 rounded-2xl border border-green-600/40 bg-green-500/10 px-4 py-3 text-sm text-green-700 dark:text-green-300">
             {location.state.message}
           </div>
         )}
