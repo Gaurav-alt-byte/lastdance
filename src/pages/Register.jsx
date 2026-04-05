@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Camera, Loader2, CheckCircle, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { getApiMessage, getErrorMessage, isApiSuccess } from "../utils/helpers.js";
+import AnimatedLogo from "../components/AnimatedLogo.jsx";
 
 const Register = () => {
   const { register } = useAuth();
@@ -25,7 +26,6 @@ const Register = () => {
     event.preventDefault();
     setError("");
 
-    // Validation
     if (!files.avatar) {
       setError("Avatar is required. Please upload an image.");
       return;
@@ -67,9 +67,13 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center px-4 py-10">
-      <div className="w-full max-w-lg rounded-3xl border border-white/10 bg-[#121212] p-8 shadow-soft">
-        <h1 className="text-center text-3xl font-bold text-white">Create account</h1>
+    <div className="relative flex min-h-screen items-center justify-center px-4 py-10">
+      <div className="auth-card-panel w-full max-w-lg rounded-3xl border border-white/10 p-8 shadow-soft">
+        <Link to="/" className="mx-auto flex w-fit items-center justify-center">
+          <AnimatedLogo variant="full" />
+        </Link>
+
+        <h1 className="mt-6 text-center text-3xl font-bold text-white">Create account</h1>
         <p className="mt-2 text-center text-sm text-zinc-400">Join the CrackedTube community.</p>
 
         {error && (
@@ -131,10 +135,10 @@ const Register = () => {
           </div>
 
           <div className="grid gap-4 md:grid-cols-2">
-            <label 
+            <label
               className={`flex cursor-pointer flex-col gap-2 rounded-2xl border border-dashed px-4 py-4 text-sm transition ${
-                files.avatar 
-                  ? "border-green-500/50 bg-green-500/10 text-green-400 hover:bg-green-500/20" 
+                files.avatar
+                  ? "border-green-500/50 bg-green-500/10 text-green-400 hover:bg-green-500/20"
                   : "border-white/15 bg-white/5 text-zinc-300 hover:bg-white/10"
               }`}
             >
@@ -142,9 +146,7 @@ const Register = () => {
                 {files.avatar ? <CheckCircle size={18} className="text-green-500" /> : <Camera size={18} />}
                 Avatar
               </span>
-              <span className="truncate text-xs opacity-80">
-                {files.avatar ? files.avatar.name : "Required"}
-              </span>
+              <span className="truncate text-xs opacity-80">{files.avatar ? files.avatar.name : "Required"}</span>
               <input
                 type="file"
                 name="avatar"
@@ -155,10 +157,10 @@ const Register = () => {
               />
             </label>
 
-            <label 
+            <label
               className={`flex cursor-pointer flex-col gap-2 rounded-2xl border border-dashed px-4 py-4 text-sm transition ${
-                files.cover_image 
-                  ? "border-green-500/50 bg-green-500/10 text-green-400 hover:bg-green-500/20" 
+                files.cover_image
+                  ? "border-green-500/50 bg-green-500/10 text-green-400 hover:bg-green-500/20"
                   : "border-white/15 bg-white/5 text-zinc-300 hover:bg-white/10"
               }`}
             >
@@ -166,9 +168,7 @@ const Register = () => {
                 {files.cover_image ? <CheckCircle size={18} className="text-green-500" /> : <Camera size={18} />}
                 Cover image
               </span>
-              <span className="truncate text-xs opacity-80">
-                {files.cover_image ? files.cover_image.name : "Optional"}
-              </span>
+              <span className="truncate text-xs opacity-80">{files.cover_image ? files.cover_image.name : "Optional"}</span>
               <input
                 type="file"
                 name="cover_image"
@@ -199,4 +199,5 @@ const Register = () => {
     </div>
   );
 };
+
 export default Register;

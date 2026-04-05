@@ -26,7 +26,13 @@ const VideoCard = ({ video }) => {
           alt={video.tittle}
           className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
         />
-        <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-0.5 text-[10px] font-semibold text-white">
+        {/* <span className="absolute bottom-2 right-2 rounded bg-black/80 px-2 py-0.5 text-[10px] font-semibold text-white">
+          {formatDuration(video.duration)}
+        </span> */}
+        <span
+          className="absolute bottom-2 right-2 rounded px-2 py-0.5 text-[10px] font-bold"
+          style={{ backgroundColor: "rgba(0,0,0,0.8)", color: "#ffffff", zIndex: 10 }}
+        >
           {formatDuration(video.duration)}
         </span>
       </div>
