@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Bell, LogOut, Menu, Moon, Search, Sun, Upload, User as UserIcon } from "lucide-react";
+import { Bell, LogOut, Menu, Moon, Search, Sun, Upload, User as UserIcon, Video } from "lucide-react";
 import { useAuth } from "../context/AuthContext.jsx";
-import AnimatedLogo from "./AnimatedLogo.jsx";
 
 const Navbar = ({ onMenuClick, onUploadClick, theme, onThemeToggle }) => {
   const { user, logout } = useAuth();
@@ -54,8 +53,11 @@ const Navbar = ({ onMenuClick, onUploadClick, theme, onThemeToggle }) => {
           <Menu size={24} />
         </button>
 
-        <Link to="/" className="flex items-center">
-          <AnimatedLogo variant="icon" showLabel className="gap-3" />
+        <Link to="/" className="flex items-center gap-2">
+          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-red-600">
+            <Video size={20} fill="currentColor" color="white" />
+          </span>
+          <span className="app-text-primary hidden text-xl font-bold tracking-tight text-white sm:block">CrackedTube</span>
         </Link>
       </div>
 
@@ -154,4 +156,3 @@ const Navbar = ({ onMenuClick, onUploadClick, theme, onThemeToggle }) => {
 };
 
 export default Navbar;
- 
